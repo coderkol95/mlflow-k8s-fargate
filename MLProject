@@ -1,15 +1,15 @@
-name: Dummy project
+name: MLFlow Optuna
 
 # python_env: python_env.yaml
 # or
 docker_env:
-   image: anupam/dummyproj
+   image: mlflow_optuna:2
 
 entry_points:
   train:
     parameters:
       epochs: {type: int, default: 3}
-      lr: {type: float, default: 0.05}
+      learning_rate: {type: float, default: 0.05}
     command: "python src/train.py {epochs} {lr}"
   # register:
   #   parameters:

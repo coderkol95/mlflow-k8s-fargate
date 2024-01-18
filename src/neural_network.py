@@ -37,9 +37,6 @@ class NN(pl.LightningModule):
     def forward(self, data):
         # If logits were returned, you would have returned the F.softmax etc. 
         return self.layers(data)
-    
-    # def on_train_start(self):
-    #     self.log(self.hparams, {"lr": self.lr, "dropout": self.dropout})
 
     def training_step(self, train_batch, batch_idx):
         x, y = train_batch 
@@ -54,6 +51,3 @@ class NN(pl.LightningModule):
         loss = self.loss(preds, y)
         self.log("val_loss", loss, on_step=False, on_epoch=True)
         return loss
-
-    def on_train_epoch_end(self):
-        self.log_dict({"dropout":self.dropout,"lr":self.lr}) #,"output_dims":str(self.output_dims)})
