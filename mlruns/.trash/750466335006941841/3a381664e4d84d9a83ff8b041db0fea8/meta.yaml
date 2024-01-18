@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/anupam/Documents/Codebase/Studies/mlFlow-k8s-Fargate/mlruns/750466335006941841/3a381664e4d84d9a83ff8b041db0fea8/artifacts
+deleted_time: 1705567856487
+end_time: 1705567551557
+entry_point_name: ''
+experiment_id: '750466335006941841'
+lifecycle_stage: deleted
+run_id: 3a381664e4d84d9a83ff8b041db0fea8
+run_name: rare-fly-3
+run_uuid: 3a381664e4d84d9a83ff8b041db0fea8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1705567530182
+status: 3
+tags: []
+user_id: anupam

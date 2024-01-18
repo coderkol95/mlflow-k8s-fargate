@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/anupam/Documents/Codebase/Studies/mlFlow-k8s-Fargate/mlruns/417464982641497498/64eaeb2e0111412ba6ee83a6686802d9/artifacts
+deleted_time: 1705570170278
+end_time: 1705570000833
+entry_point_name: ''
+experiment_id: '417464982641497498'
+lifecycle_stage: deleted
+run_id: 64eaeb2e0111412ba6ee83a6686802d9
+run_name: silent-ape-170
+run_uuid: 64eaeb2e0111412ba6ee83a6686802d9
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1705569997006
+status: 4
+tags: []
+user_id: anupam

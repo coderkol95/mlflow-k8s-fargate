@@ -35,12 +35,11 @@ class NN(pl.LightningModule):
         return Adam(params=self.parameters(), lr=self.lr)
 
     def forward(self, data):
-        
         # If logits were returned, you would have returned the F.softmax etc. 
         return self.layers(data)
     
     # def on_train_start(self):
-        # self.logger.experiment.log_params(self.hparams, {"lr": self.lr, "dropout": self.dropout})
+    #     self.log(self.hparams, {"lr": self.lr, "dropout": self.dropout})
 
     def training_step(self, train_batch, batch_idx):
         x, y = train_batch 

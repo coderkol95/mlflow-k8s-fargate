@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/anupam/Documents/Codebase/Studies/mlFlow-k8s-Fargate/mlruns/417464982641497498/f2327a4876d24d309f5eb51dc92ae86c/artifacts
+deleted_time: 1705570160664
+end_time: 1705569966214
+entry_point_name: ''
+experiment_id: '417464982641497498'
+lifecycle_stage: deleted
+run_id: f2327a4876d24d309f5eb51dc92ae86c
+run_name: Experiment run
+run_uuid: f2327a4876d24d309f5eb51dc92ae86c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1705569961814
+status: 4
+tags: []
+user_id: anupam

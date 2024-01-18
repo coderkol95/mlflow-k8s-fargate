@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/anupam/Documents/Codebase/Studies/mlFlow-k8s-Fargate/mlruns/517821716865877402/b2c470e6197a427aa08a56e9c0372e7c/artifacts
+deleted_time: 1705569937229
+end_time: 1705568505766
+entry_point_name: ''
+experiment_id: '517821716865877402'
+lifecycle_stage: deleted
+run_id: b2c470e6197a427aa08a56e9c0372e7c
+run_name: skillful-newt-561
+run_uuid: b2c470e6197a427aa08a56e9c0372e7c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1705568463228
+status: 3
+tags: []
+user_id: anupam

@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/anupam/Documents/Codebase/Studies/mlFlow-k8s-Fargate/mlruns/750466335006941841/a6be07bd73784fa8abe1f2f399d83c61/artifacts
+deleted_time: 1705568105614
+end_time: 1705567901302
+entry_point_name: ''
+experiment_id: '750466335006941841'
+lifecycle_stage: deleted
+run_id: a6be07bd73784fa8abe1f2f399d83c61
+run_name: capable-auk-759
+run_uuid: a6be07bd73784fa8abe1f2f399d83c61
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1705567883434
+status: 3
+tags: []
+user_id: anupam

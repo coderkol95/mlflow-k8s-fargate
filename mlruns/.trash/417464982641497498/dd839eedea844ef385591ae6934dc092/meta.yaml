@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/anupam/Documents/Codebase/Studies/mlFlow-k8s-Fargate/mlruns/417464982641497498/dd839eedea844ef385591ae6934dc092/artifacts
+deleted_time: 1705570816188
+end_time: 1705570418271
+entry_point_name: ''
+experiment_id: '417464982641497498'
+lifecycle_stage: deleted
+run_id: dd839eedea844ef385591ae6934dc092
+run_name: selective-croc-10
+run_uuid: dd839eedea844ef385591ae6934dc092
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1705570414329
+status: 4
+tags: []
+user_id: anupam

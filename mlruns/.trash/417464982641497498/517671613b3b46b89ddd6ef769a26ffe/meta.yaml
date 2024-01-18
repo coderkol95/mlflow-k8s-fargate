@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/anupam/Documents/Codebase/Studies/mlFlow-k8s-Fargate/mlruns/417464982641497498/517671613b3b46b89ddd6ef769a26ffe/artifacts
+deleted_time: 1705571159070
+end_time: 1705570862116
+entry_point_name: ''
+experiment_id: '417464982641497498'
+lifecycle_stage: deleted
+run_id: 517671613b3b46b89ddd6ef769a26ffe
+run_name: orderly-bird-1
+run_uuid: 517671613b3b46b89ddd6ef769a26ffe
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1705570827478
+status: 3
+tags: []
+user_id: anupam

@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/anupam/Documents/Codebase/Studies/mlFlow-k8s-Fargate/mlruns/417464982641497498/5d6601fde4a642569c6ebd4e1398ff2b/artifacts
+deleted_time: 1705570170278
+end_time: 1705569966209
+entry_point_name: ''
+experiment_id: '417464982641497498'
+lifecycle_stage: deleted
+run_id: 5d6601fde4a642569c6ebd4e1398ff2b
+run_name: adorable-swan-133
+run_uuid: 5d6601fde4a642569c6ebd4e1398ff2b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1705569961829
+status: 4
+tags: []
+user_id: anupam

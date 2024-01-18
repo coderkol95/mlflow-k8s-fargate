@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/anupam/Documents/Codebase/Studies/mlFlow-k8s-Fargate/mlruns/417464982641497498/c2bbcd9a582e48eb92a1a09604953f17/artifacts
+deleted_time: 1705570310938
+end_time: 1705570293257
+entry_point_name: ''
+experiment_id: '417464982641497498'
+lifecycle_stage: deleted
+run_id: c2bbcd9a582e48eb92a1a09604953f17
+run_name: intelligent-eel-228
+run_uuid: c2bbcd9a582e48eb92a1a09604953f17
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1705570289417
+status: 4
+tags: []
+user_id: anupam

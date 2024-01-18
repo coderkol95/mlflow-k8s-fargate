@@ -1,0 +1,7 @@
+artifact_location: file:///Users/anupam/Documents/Codebase/Studies/mlFlow-k8s-Fargate/mlruns/750466335006941841
+creation_time: 1705567530077
+experiment_id: '750466335006941841'
+last_update_time: 1705571161964
+lifecycle_stage: deleted
+name: With callback
+tags: {}

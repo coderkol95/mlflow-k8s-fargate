@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/anupam/Documents/Codebase/Studies/mlFlow-k8s-Fargate/mlruns/417464982641497498/24f5fafe28504d0eadbf4f172b70cc4f/artifacts
+deleted_time: 1705570816185
+end_time: 1705570709166
+entry_point_name: ''
+experiment_id: '417464982641497498'
+lifecycle_stage: deleted
+run_id: 24f5fafe28504d0eadbf4f172b70cc4f
+run_name: welcoming-perch-184
+run_uuid: 24f5fafe28504d0eadbf4f172b70cc4f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1705570676009
+status: 4
+tags: []
+user_id: anupam

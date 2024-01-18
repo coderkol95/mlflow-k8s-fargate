@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/anupam/Documents/Codebase/Studies/mlFlow-k8s-Fargate/mlruns/750466335006941841/d8af9aa9aa344405b7a2fba8b882b40d/artifacts
+deleted_time: 1705568105639
+end_time: 1705567865713
+entry_point_name: ''
+experiment_id: '750466335006941841'
+lifecycle_stage: deleted
+run_id: d8af9aa9aa344405b7a2fba8b882b40d
+run_name: fortunate-cod-823
+run_uuid: d8af9aa9aa344405b7a2fba8b882b40d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1705567846255
+status: 3
+tags: []
+user_id: anupam

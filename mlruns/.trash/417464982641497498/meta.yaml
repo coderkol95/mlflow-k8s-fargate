@@ -1,0 +1,7 @@
+artifact_location: file:///Users/anupam/Documents/Codebase/Studies/mlFlow-k8s-Fargate/mlruns/417464982641497498
+creation_time: 1705569961710
+experiment_id: '417464982641497498'
+last_update_time: 1705571159070
+lifecycle_stage: deleted
+name: Changing to experiment.log
+tags: {}

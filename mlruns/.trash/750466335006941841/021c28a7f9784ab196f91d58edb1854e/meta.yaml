@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/anupam/Documents/Codebase/Studies/mlFlow-k8s-Fargate/mlruns/750466335006941841/021c28a7f9784ab196f91d58edb1854e/artifacts
+deleted_time: 1705571161964
+end_time: 1705568133029
+entry_point_name: ''
+experiment_id: '750466335006941841'
+lifecycle_stage: deleted
+run_id: 021c28a7f9784ab196f91d58edb1854e
+run_name: honorable-trout-848
+run_uuid: 021c28a7f9784ab196f91d58edb1854e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1705568113824
+status: 3
+tags: []
+user_id: anupam

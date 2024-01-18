@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/anupam/Documents/Codebase/Studies/mlFlow-k8s-Fargate/mlruns/417464982641497498/71ab504fe4bf4856a2035d189f161587/artifacts
+deleted_time: 1705570285898
+end_time: 1705570181851
+entry_point_name: ''
+experiment_id: '417464982641497498'
+lifecycle_stage: deleted
+run_id: 71ab504fe4bf4856a2035d189f161587
+run_name: youthful-robin-700
+run_uuid: 71ab504fe4bf4856a2035d189f161587
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1705570177734
+status: 4
+tags: []
+user_id: anupam
