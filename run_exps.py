@@ -1,13 +1,16 @@
 import mlflow
 
+name='HP-Optuna'
+
 mlflow.projects.run(
     uri=".",
-    run_name="e_30_lr_0.003",
+    run_name=name,
     entry_point="train",
     backend='local', 
     synchronous=False,
-    # parameters={
-    #     'epochs': 3,
-    #     'learning_rate':0.003
-    # },
+    parameters={
+        'name':name,
+        'epochs': 3,
+        'trials':2
+    },
     )

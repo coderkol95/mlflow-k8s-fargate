@@ -6,6 +6,7 @@ from datawork import data_module
 from neural_network import NN
 from datetime import datetime
 from lightning.pytorch.callbacks import Callback
+import argparse
 
 # override Optuna's default logging to ERROR only
 optuna.logging.set_verbosity(optuna.logging.ERROR)
@@ -13,10 +14,7 @@ optuna.logging.set_verbosity(optuna.logging.ERROR)
 with open("config.json","r") as f:
     configs=json.load(f)
 
-RANDOM_SEED:int=configs["RANDOM STATE"]
-EPOCHS:int=configs["EPOCHS"]
-TRIALS:int=configs["TRIALS"]
-EXPERIMENT_NAME="Attempt"
+RANDOM_SEED=configs["RANDOM STATE"]
 
 class log_losses(Callback):
 
@@ -59,6 +57,7 @@ def objective(trial):
         print(data_to_log)
         mlflow.log_table(data=data_to_log, artifact_file="comparison_table.json")
         error = trainer.logged_metrics["val_loss"].item()
+    
     return error
 
 def get_or_create_experiment(experiment_name:str):
@@ -68,14 +67,24 @@ def get_or_create_experiment(experiment_name:str):
     else:
         return mlflow.create_experiment(experiment_name)
 
-def train_model():
+def train_model(experiment_id):
     # Initialize the Optuna study
-    with mlflow.start_run(experiment_id=get_or_create_experiment(EXPERIMENT_NAME),nested=True):
+    with mlflow.start_run(experiment_id=experiment_id,nested=True):
         study = optuna.create_study(direction="minimize")
         study.optimize(objective, n_trials=TRIALS) #, callbacks=[champion_callback])
+        mlflow.log_params(study.best_params)
+        mlflow.log_metric("val_loss",study.best_value)
 
 if __name__=="__main__":
-    experiment_id = get_or_create_experiment(EXPERIMENT_NAME)
-    # mlflow.set_experiment(experiment_id=experiment_id)
 
-    train_model()
+    a=argparse.ArgumentParser()
+    a.add_argument("name", type=str)
+    a.add_argument("epochs", type=int)
+    a.add_argument("trials", type=int)
+
+    args=a.parse_args()
+    EXPERIMENT_NAME=args.name
+    EPOCHS=args.epochs
+    TRIALS=args.trials
+    experiment_id = get_or_create_experiment(EXPERIMENT_NAME)
+    train_model(experiment_id)
