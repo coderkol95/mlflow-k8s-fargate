@@ -1,92 +1,76 @@
-import lightning.pytorch as pl
-from datawork import data_module
-from neural_network import NN
-import os
+import mlflow
 import optuna
-# from optuna.integration import PyTorchLightningPruningCallback # This is causing a lot of problems between packages lightning and pytorch-lightning. Removing it for now
-from typing import List
+import lightning.pytorch as pl
 import json
-import argparse
+from src.datawork import data_module
+from src.neural_network import NN
+from lightning.pytorch.callbacks import Callback
+from lightning.pytorch.loggers import MLFlowLogger
 
-# When executing locally: python code/train.py --local True
-
-# Pytorch 2 has problem with last linear layer having 1 cell in arm arch. Hence reverted to prev version
-# Optuna does not work with pytorch lightning >=2.0, using 1.8
-EPOCHS:int=0
+# override Optuna's default logging to ERROR only
+optuna.logging.set_verbosity(optuna.logging.ERROR)
 
 with open("config.json","r") as f:
     configs=json.load(f)
 
 RANDOM_SEED:int=configs["RANDOM STATE"]
+EPOCHS:int=configs["EPOCHS"]
+TRIALS:int=configs["TRIALS"]
+EXPERIMENT_NAME="Nested false"
 
 def objective(trial):
 
-    # We optimize the number of layers, hidden units in each layer, dropout and the learning rate.
-    n_layers = trial.suggest_int("n_layers", 1, 3)
-    dropout = trial.suggest_float("dropout", 0.2, 0.5)
-    lr = trial.suggest_float("learning_rate",1e-5,1e-1)
+    with mlflow.start_run(nested=True):
 
-    output_dims = [
-        trial.suggest_int(f"n_units_l{i}", 4, 128, log=True) for i in range(n_layers)
-    ]
+        # We optimize the number of layers, hidden units in each layer, dropout and the learning rate.
+        n_layers = trial.suggest_int("n_layers", 1, 3)
+        dropout = trial.suggest_float("dropout", 0.2, 0.5)
+        lr = trial.suggest_float("learning_rate",1e-5,1e-1)
 
-    od="_".join(str(x) for x in output_dims)
+        output_dims = [
+            trial.suggest_int(f"n_units_l{i}", 4, 128, log=True) for i in range(n_layers)
+        ]
 
-    # version = f"version_{round(dropout,2)}_{round(lr,2)}_{od}"
+        # od="_".join(str(x) for x in output_dims)
+        # version = f"version_{round(dropout,2)}_{round(lr,2)}_{od}"
 
-    pl.seed_everything(RANDOM_SEED, workers=True) # Setting seed for execution
-    model = NN(dropout, output_dims,lr)
+        pl.seed_everything(RANDOM_SEED, workers=True) # Setting seed for execution
+        data=data_module(batch_size=4,seed=RANDOM_SEED)
+        model = NN(dropout, output_dims,lr)
 
-    trainer = pl.Trainer(
-        logger=True,
-        deterministic=True,
-        # limit_val_batches=PERCENT_VALID_EXAMPLES,
-        enable_checkpointing=False,
-        max_epochs=EPOCHS,
-        # callbacks=[PyTorchLightningPruningCallback(trial, monitor="val_loss")],
-        default_root_dir=output_path
-    )
-    hyperparameters = dict(n_layers=n_layers, dropout=dropout, output_dims=output_dims, lr=lr)
-    trainer.logger.log_hyperparams(hyperparameters)
-    trainer.fit(model,data)
+        mlf_logger = MLFlowLogger(experiment_name=EXPERIMENT_NAME) #, tracking_uri="file:./ml-runs")
 
-    return trainer.callback_metrics["val_loss"].item()
+        trainer = pl.Trainer(
+            logger=mlf_logger,
+            deterministic=True,
+            enable_checkpointing=False,
+            max_epochs=EPOCHS,
+            default_root_dir="./"
+        )
+        hyperparameters = dict(n_layers=n_layers, dropout=dropout, output_dims=output_dims, lr=lr)
+        trainer.fit(model,data)
+        error = trainer.callback_metrics["val_loss"].item()
 
-if __name__ =='__main__':
+    return error
 
-    try:
-        # Hyperparameters received when run as Sagemaker image
-        hyperparams = json.load(open(hyperparam_path))        
-        EPOCHS=int(hyperparams["epochs"]) if "epochs" in list(hyperparams.keys()) else 3
-        # Receive other hyperparams maybe?
-    except:
-        EPOCHS=2
+def get_or_create_experiment(experiment_name:str):
 
-    a = argparse.ArgumentParser()
-    a.add_argument("--local",default=False, type=bool, required=False)
-
-    parsed_args=a.parse_args()
-
-    if parsed_args.local:
-        data=data_module(folder="opt/ml/input/data/backup/")
+    if experiment := mlflow.get_experiment_by_name(experiment_name):
+        return experiment.experiment_id
     else:
-        data=data_module()
+        return mlflow.create_experiment(experiment_name)
 
-    pruner = optuna.pruners.MedianPruner()
+def train_model():
+    with mlflow.start_run(experiment_id=experiment_id, run_name="Experiment run", nested=True):
+        # Initialize the Optuna study
+        study = optuna.create_study(direction="minimize")
+        study.optimize(objective, n_trials=TRIALS) #, callbacks=[champion_callback])
 
-    study = optuna.create_study(direction="minimize", pruner=pruner)
-    study.optimize(objective, n_trials=2, timeout=300)
+if __name__=="__main__":
+    experiment_id = get_or_create_experiment(EXPERIMENT_NAME)
+    experiment_id
 
-    print("Best trial:")
-    trial = study.best_trial
+    # Set the current active MLflow experiment
+    mlflow.set_experiment(experiment_id=experiment_id)
 
-    print(f"  Validation loss: {trial.value}")
-
-    print("  Best model's parameters: ")
-    for key, value in trial.params.items():
-        print(f"    {key}: {value}")
-
-    json.dump(trial.params,open('best_trial_params.json','w'))
-
-# Not saving every model. It will take up a lot of space, resulting in a lot of unnecessary cost. 
-# Instead enforcing seed and deterministic run of Trainer 
+    train_model()

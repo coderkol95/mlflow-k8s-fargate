@@ -1,0 +1,26 @@
+name: Dummy project
+
+# python_env: python_env.yaml
+# or
+docker_env:
+   image: anupam/dummyproj
+
+entry_points:
+  train:
+    parameters:
+      epochs: {type: int, default: 3}
+      lr: {type: float, default: 0.05}
+    command: "python src/train.py {epochs} {lr}"
+  # register:
+  #   parameters:
+  #     metric: {type: str, default: "test_loss"}
+  #     model_name: {type: str, default: "regression_NN_on"} # Date is added here in python
+  #     lookback_duration: {type: str, default: "7"}
+  #   command: "python src/register.py {metric} {model_name} {lookback_duration}"
+  # deploy:
+  #   parameters:
+  #     model_name: {type: str, default: "regression_NN_model"}
+  #     model_version: {type: str, default: "latest"}
+  #     model_stage: {type: str, default: "Staging"}
+  #     # endpoint_name: {type: str, default: }
+  #   command: "python src/deploy.py {model_name} {model_version} {model_stage}"
