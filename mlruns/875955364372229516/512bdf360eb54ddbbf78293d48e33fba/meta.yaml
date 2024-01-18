@@ -1,0 +1,16 @@
+artifact_uri: file:///Users/anupam/Documents/Codebase/Studies/mlFlow-k8s-Fargate/mlruns/875955364372229516/512bdf360eb54ddbbf78293d48e33fba/artifacts
+deleted_time: 1705566812158
+end_time: 1705566725162
+entry_point_name: ''
+experiment_id: '875955364372229516'
+lifecycle_stage: deleted
+run_id: 512bdf360eb54ddbbf78293d48e33fba
+run_name: sneaky-goat-903
+run_uuid: 512bdf360eb54ddbbf78293d48e33fba
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1705566695755
+status: 4
+tags: []
+user_id: anupam
