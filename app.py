@@ -91,10 +91,11 @@ def run_experiment(name, epochs, trials):
 
     mlflow.projects.run(
     uri=".",
-    run_name=name,
+    run_name="nn",
     entry_point="train",
-    backend='local', 
+    backend='local',
     synchronous=False,
+    env_manager='local',
     parameters={
         'name':name,
         'epochs':epochs,

@@ -1,7 +1,6 @@
 name: MLFlow Optuna
 
-docker_env:
-   image: mlflow_optuna:1
+python_env: python_env.yaml
 
 entry_points:
   train:
