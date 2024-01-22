@@ -84,7 +84,7 @@ def endpoints():
     return render_template("endpoints.html")
 
 ####################################################################################################
-# BACKEND TRAINING/REGISTRATION CALL
+# BACKEND TRAINING/REGISTRATION CALLS
 ####################################################################################################
 
 def run_experiment(name, epochs, trials):
@@ -115,4 +115,4 @@ def register_models(runs_to_register_model,model_names):
 
 if __name__=="__main__":
     exp=get_past_experiments_details()
-    app.run(debug=True, port=5001)
+    app.run(host="0.0.0.0", port=5001)

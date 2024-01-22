@@ -2,14 +2,14 @@
 # mlFlow
 
 - [X] mlFlow for pytorch lightning
-- [ ] Flask/FastAPI for backend
-    - [ ] Backend server logic
+- [X] Flask/FastAPI for backend
+    - [X] Backend server logic
     - [X] Training
     - [X] Viewing experiments and analyzing experiments
     - [X] Viewing registered models
     - [X] Registering a model
-    - [ ] Vieweing endpoints
-- [ ] JS for frontend
+    - [ ] Viewing endpoints - Not doing this as previous steps itself are not finalised.
+- [ ] JS for frontend - Focusing time and energy in other places instead of frontend.
 - [X] Track and visualize results
 - [ ] Containerize it for a web app
 
