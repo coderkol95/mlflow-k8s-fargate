@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Train models</title>
+</head>
+<body>
+    <class id="input-form">
+        <form method="post" action="/train" enctype="multipart/form-data">
+            <class id="input-field">
+                <label for="name">Experiment name:</label>
+                <input type="text" name="name" id="name" required>
+            </class>
+            <class id="input-field">
+                <label for="epochs">Epochs:</label>
+                <input type="number" name="epochs" id="epochs" min="0" max="5">
+            </class>
+            <class id="input-field">
+                <label for="trials">Trials:</label>
+                <input type="number" name="trials" id="trials" min="0" max="5">
+            </class>
+            <class id="submit-button">
+                <input type="submit" value="Run training experiment">
+            </class>
+        </form>
+    </class>
+</body>
+</html>

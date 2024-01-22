@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MLOps platform</title>
+</head>
+<body>    
+    <class id="menu">
+        <class id="menu_option">
+            <a href="{{url_for('train')}}">Train models</a>
+        </class>
+        <class id="menu_option">
+            <a href="{{url_for('experiments')}}">View previous experiments</a>
+        </class>
+        <class id="menu_option">
+            <a href="{{url_for('models')}}">Model registry</a>
+        </class>
+        <class id="menu_option">
+            <a href="{{url_for('endpoints')}}">Available endpoints</a>
+        </class>
+    </class>
+</body>
+</html>
