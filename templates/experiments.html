@@ -3,9 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Previous experiments</title>
+    <title>Experiments</title>
 </head>
 <body>
-    
+    <class id="input-form">
+        <form method="post" action="/experiments" enctype="multipart/form-data">
+            {% if dates%}
+            <class id="input-field">
+                <label for="date">Date:</label>
+                <input type="date" name="date-selector" id="date" required>
+            </class>
+            {% endif %}
+            {% if exps %}
+            <class id="input-field">
+                <label for="exps">Select experiments:</label><br>
+                {% for item in exps %}
+                    <input type="checkbox" name="selected_exps" id="exps" value="{{ item }}">{{ item }}<br>
+                {% endfor %}
+            </class>
+            {% endif %}
+            {% if runs %}
+            <class id="input-field">
+                <label for="runs">Select runs:</label><br>
+                {% for item in runs %}
+                    <input type="checkbox" name="selected_runs" id="runs" value="{{ item }}">{{ item }}<br>
+                {% endfor %}
+            </class>
+            {% endif %}
+            {% if losses %}
+            <class id="input-field">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Train Loss</th>
+                            <th>Val Loss</th>
+                            <th>Select</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for id, (train_loss, val_loss) in losses.items() %}
+                            <tr>
+                                <td>{{ id }}</td>
+                                <td>{{ train_loss }}</td>
+                                <td>{{ val_loss }}</td>
+                                <td><input type="checkbox" name="selected_runs_to_register_model" value="{{ id }}"></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </class>
+            {% endif %}
+
+            {% if dates%}
+            <class id="submit-button">
+                <input type="submit" value="Get experiment details">
+            </class>
+            {% endif %}  
+            {% if exps%}
+            <class id="submit-button">
+                <input type="submit" value="Get run details">
+            </class>
+            {% endif %}  
+            {% if runs%}
+            <class id="submit-button">
+                <input type="submit" value="View losses for runs">
+            </class>
+            {% endif %}  
+            {% if losses%}
+            <class id="submit-button">
+                <input type="submit" value="Register models in these runs">
+            </class>
+            {% endif %}    
+        </form>
+    </class>
 </body>
 </html>

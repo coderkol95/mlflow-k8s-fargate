@@ -6,6 +6,47 @@
     <title>Model registry</title>
 </head>
 <body>
-    
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <!-- <th>Version</th> -->
+                <!-- <th>Stage</th> -->
+                <th>Date Updated</th>
+                <th>Run ID</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in registered_models %}
+                <tr>
+                    <td>{{ row[0] }}</td>
+                    <!-- <td>{{ row[1] }}</td> -->
+                    <!-- <td>{{ row[2] }}</td> -->
+                    <td>{{ row[1] }}</td>
+                    <td>{{ row[2] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if new_models%}
+    <form action="/models" enctype="multipart/form-data" method="post">
+    <table>
+        <tbody>
+            {% for row in new_models %}
+                <tr>
+                    <td><input type="text" value="Model-name" name="model-name" required></td>
+                    <!-- <td><input type="text" value="Model-stage" name="model-stage" ></td> -->
+                    <td>{{ row[0] }}</td>
+                    <td>{{ row[1] }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <input type="submit" value="Register models">
+    </form>
+
+    {% endif %}
+
 </body>
 </html>
