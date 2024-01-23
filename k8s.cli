@@ -1,9 +1,15 @@
+~ Deployment, service and ingress:
 `kubectl apply -f k8s-config.yaml`
 
+~ Getting information
 `kubectl get nodes`
 `kubectl get deployments`
 `kubectl get service`
 `kubectl describe service mlops-service`
 `kubectl get ingress`
 
-`ubectl delete deploy,service,ingress -l  app=mlops`
+~ Deleting resources
+`kubectl delete deploy,service,ingress -l  app=mlops` ~Port forwarding
+
+~ Port forwarding of service
+`kubectl port-forward service/mlops-service 8080:80`

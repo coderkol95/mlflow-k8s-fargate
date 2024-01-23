@@ -36,11 +36,10 @@ spec:
   selector:
     app: mlops # Pods tagged app:mlops are exposed to the network
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 5001 # The port of the pods to which traffic is directed
-      # name: http
-
+  - protocol: TCP
+    name: http
+    port: 80
+    targetPort: 5001
 # Service yaml is used to deploy an app running in pods to the network.
 # This enables clients to interact with the app.
 
@@ -50,24 +49,19 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: mlops-ingress
+  labels:
+    app: mlops
   annotations:
-    # Use the HAProxy ingress controller (currently the only option)
-    kubernetes.io/ingress.class: haproxy
-    # Instruct HAProxy to redirect HTTP to HTTPS, with the 301 "permanent" code
-    haproxy.org/ssl-redirect: "true"
-    haproxy.org/ssl-redirect-code: "301"
-    # Instruct HAProxy to provide the end-user's address in the 'X-Forwarded-For' header
-    haproxy.org/forwarded-for: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /
 spec:
-  # ingressClassName: nginx-example
   rules:
-    - host: mlops.host
-      http:
-        paths:
-        - path: /
-          pathType: Prefix
-          backend:
-            service:
-              name: mlops-service # Service name
-              port:
-                number: 80
+  - host: mlopsopt.in
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mlops-service
+            port:
+              name: http
