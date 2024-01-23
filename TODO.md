@@ -11,6 +11,6 @@
     - [ ] Viewing endpoints - Not doing this as previous steps itself are not finalised.
 - [ ] JS for frontend - Focusing time and energy in other places instead of frontend.
 - [X] Track and visualize results
-- [ ] Containerize it for a web app
+- [X] Containerize it for a web app
 
 # EKS setup on Fargate

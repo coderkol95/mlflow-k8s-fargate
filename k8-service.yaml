@@ -1,0 +1,16 @@
+apiVersion: mlops-app/v1
+kind: Service
+metadata:
+  name: mlops-service
+  labels:
+    app: mlops
+spec:
+  selector:
+    app: mlops # Pods tagged app:mlops are exposed to the network
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5001 # The port of the pods to which traffic is directed
+
+# Service yaml is used to deploy an app running in pods to the network.
+# This enables clients to interact with the app.
