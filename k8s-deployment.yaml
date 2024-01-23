@@ -1,4 +1,4 @@
-apiVersion: mlops-app/v1
+apiVersion: apps/v1 # Do not change this
 kind: Deployment
 metadata:
   name: mlops-deployment # Name of deployment
@@ -9,16 +9,16 @@ spec:
   selector:
     matchLabels:
       app: mlops # k-v tags of pods to manage
-    template: # Template of each pod
-      metadata: # Metadata of pod
-        labels:
-          app: mlops #The pods are tagged with this k-v, by which they are found, and managed
-      spec:
-        containers:
-          - name: mlops-app
-            image: mlops-webapp:2
-            ports:
-            - containerPort: 5001
+  template: # Template of each pod
+    metadata: # Metadata of pod
+      labels:
+        app: mlops #The pods are tagged with this k-v, by which they are found, and managed
+    spec:
+      containers:
+        - name: mlops-app
+          image: mlops-webapp:2
+          ports:
+          - containerPort: 5001
 
 # The deployment yaml is used to deploy the application to clusters. 
 # It describes a desired state which is managed and monitored by the deployment controller.

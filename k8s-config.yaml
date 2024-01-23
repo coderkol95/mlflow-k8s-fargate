@@ -1,0 +1,73 @@
+apiVersion: apps/v1 # Do not change this
+kind: Deployment
+metadata:
+  name: mlops-deployment # Name of deployment
+  labels:
+    app: mlops
+spec:
+  replicas: 2 # Two replicated pods are created
+  selector:
+    matchLabels:
+      app: mlops # k-v tags of pods to manage
+  template: # Template of each pod
+    metadata: # Metadata of pod
+      labels:
+        app: mlops #The pods are tagged with this k-v, by which they are found, and managed
+    spec:
+      containers:
+        - name: mlops-app
+          image: mlops-webapp:2
+          ports:
+          - containerPort: 5001
+
+# The deployment yaml is used to deploy the application to clusters. 
+# It describes a desired state which is managed and monitored by the deployment controller.
+# The controller adds a third part to this deployment yaml called 'status' where etcd details 
+# are written out and monitored against 'spec'.
+---
+apiVersion: v1 # Do not change this
+kind: Service
+metadata:
+  name: mlops-service
+  labels:
+    app: mlops
+spec:
+  type: ClusterIP
+  selector:
+    app: mlops # Pods tagged app:mlops are exposed to the network
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5001 # The port of the pods to which traffic is directed
+      # name: http
+
+# Service yaml is used to deploy an app running in pods to the network.
+# This enables clients to interact with the app.
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mlops-ingress
+  annotations:
+    # Use the HAProxy ingress controller (currently the only option)
+    kubernetes.io/ingress.class: haproxy
+    # Instruct HAProxy to redirect HTTP to HTTPS, with the 301 "permanent" code
+    haproxy.org/ssl-redirect: "true"
+    haproxy.org/ssl-redirect-code: "301"
+    # Instruct HAProxy to provide the end-user's address in the 'X-Forwarded-For' header
+    haproxy.org/forwarded-for: "true"
+spec:
+  # ingressClassName: nginx-example
+  rules:
+    - host: mlops.host
+      http:
+        paths:
+        - path: /
+          pathType: Prefix
+          backend:
+            service:
+              name: mlops-service # Service name
+              port:
+                number: 80

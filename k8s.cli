@@ -1,0 +1,9 @@
+`kubectl apply -f k8s-config.yaml`
+
+`kubectl get nodes`
+`kubectl get deployments`
+`kubectl get service`
+`kubectl describe service mlops-service`
+`kubectl get ingress`
+
+`ubectl delete deploy,service,ingress -l  app=mlops`

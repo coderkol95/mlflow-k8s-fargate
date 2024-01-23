@@ -6,7 +6,7 @@ from src.analyze_runs import get_past_experiments_details
 # BACKEND SERVER LOGIC
 ####################################################################################################
 
-app = Flask(__name__)
+app = Flask('mlops')
 
 @app.route("/", methods=["GET","POST"])
 def index():
