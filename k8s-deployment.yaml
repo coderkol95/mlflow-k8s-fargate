@@ -32,7 +32,7 @@ metadata:
   labels:
     app: mlops
 spec:
-  type: LoadBalancer
+  # type: LoadBalancer
   selector:
     app: mlops # Pods tagged app:mlops are exposed to the network
   ports:
@@ -43,24 +43,24 @@ spec:
     # LoadBalancer does not work properly in docker desktop, hence not accessible through nodePort
 # Service yaml is used to deploy an app running in pods to the network.
 # This enables clients to interact with the app.
-# ---
-# apiVersion: networking.k8s.io/v1
-# kind: Ingress
-# metadata:
-#   name: mlops-ingress
-#   labels:
-#     app: mlops
-#   annotations:
-#     kubernetes.io/ingress.class: "nginx"
-# spec:
-#   rules:
-#   - host: mlopsopt.in
-#     http:
-#       paths:
-#       - path: /
-#         pathType: Prefix
-#         backend:
-#           service:
-#             name: mlops-service
-#             port:
-#               number: 80
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mlops-ingress
+  labels:
+    app: mlops
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+spec:
+  rules:
+  - host: mlopsopt.in
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mlops-service
+            port:
+              number: 80

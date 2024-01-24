@@ -14,5 +14,10 @@
 ~ Port forwarding of service
 `kubectl port-forward service/mlops-service 8080:80`
 
-~ Accessing via LoadBalancer
+~ Accessing via LoadBalancer as a service
 `http://localhost:80` ~Use service port in port:nodePort/TCP in kubectl get service
+
+~ Installing the ingress controller for docker desktop and turning off the webhook validator
+`kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml`
+`kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission`
+
