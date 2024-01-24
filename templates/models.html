@@ -3,10 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/models.css">
     <title>Model registry</title>
 </head>
 <body>
-    <table>
+    <div class="table-overall">
+    <div class="heading">
+        <h2>Registered models</h2>
+    </div>
+    <div class="input-field-desc">
+        <h3>1. Registered models appear here.</h3>
+        <h3>2. New model registration is also done here.</h3>
+        <h3>3. Later option will be added to change model versions, add tags, change stage.</h3>
+       </div>
+    <table id="models" class="reg-models">
         <thead>
             <tr>
                 <th>Name</th>
@@ -30,8 +40,8 @@
     </table>
 
     {% if new_models%}
-    <form action="/models" enctype="multipart/form-data" method="post">
-    <table>
+    <form class="unreg-models" action="/models" enctype="multipart/form-data" method="post">
+    <table id="models">
         <tbody>
             {% for row in new_models %}
                 <tr>
@@ -43,10 +53,13 @@
             {% endfor %}
         </tbody>
     </table>
-    <input type="submit" value="Register models">
+    <input type="submit" class="submit" value="Register model(s)">
     </form>
 
     {% endif %}
-
+    <div class="menu_option">
+        <a class="text" href="{{url_for('index')}}">Home</a>
+    </div>
+    </div>
 </body>
 </html>

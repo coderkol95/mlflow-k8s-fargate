@@ -3,36 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/experiments.css">
     <title>Experiments</title>
 </head>
 <body>
-    <class id="input-form">
-        <form method="post" action="/experiments" enctype="multipart/form-data">
+    <div class="input-form">
+        <div class="heading">
+            <h2>Analyze experiments</h2>
+        </div>
+        <form method="post" class="input-form" action="/experiments" enctype="multipart/form-data">
+            <div class="input-field-desc">
+            <h3>1. Filter by date to view experiments.</h3>
+            <h3>2. Select experiments by name, to view their runs.</h3>
+            <h3>3. Analyze training and validation losses for different runs.</h3>
+            <h3>4. Select models to register.</h3>
+            <h3>5. In the model registration page, enter desired model names.</h3>
+            </div>
             {% if dates%}
-            <class id="input-field">
-                <label for="date">Date:</label>
+            <div class="input-field">
+                <label class="desc" for="date">Date:</label>
                 <input type="date" name="date-selector" id="date" required>
-            </class>
+            </div>
             {% endif %}
             {% if exps %}
-            <class id="input-field">
-                <label for="exps">Select experiments:</label><br>
+            <div class="input-field">
+                <label class="desc" for="exps">Select experiments:</label><br>
                 {% for item in exps %}
                     <input type="checkbox" name="selected_exps" id="exps" value="{{ item }}">{{ item }}<br>
                 {% endfor %}
-            </class>
+            </div>
             {% endif %}
             {% if runs %}
-            <class id="input-field">
-                <label for="runs">Select runs:</label><br>
+            <div class="input-field">
+                <label class="desc" for="runs">Select runs:</label><br>
                 {% for item in runs %}
                     <input type="checkbox" name="selected_runs" id="runs" value="{{ item }}">{{ item }}<br>
                 {% endfor %}
-            </class>
+            </div>
             {% endif %}
             {% if losses %}
-            <class id="input-field">
-                <table>
+                <table id="losses">
                     <thead>
                         <tr>
                             <th>ID</th>
@@ -52,30 +62,24 @@
                         {% endfor %}
                     </tbody>
                 </table>
-            </class>
             {% endif %}
 
             {% if dates%}
-            <class id="submit-button">
-                <input type="submit" value="Get experiment details">
-            </class>
+                <input type="submit" class="submit" value="Get experiment details">
             {% endif %}  
             {% if exps%}
-            <class id="submit-button">
-                <input type="submit" value="Get run details">
-            </class>
+                <input type="submit" class="submit" value="Get run details">
             {% endif %}  
             {% if runs%}
-            <class id="submit-button">
-                <input type="submit" value="View losses for runs">
-            </class>
+                <input type="submit" class="submit" value="View losses for runs">
             {% endif %}  
             {% if losses%}
-            <class id="submit-button">
-                <input type="submit" value="Register models in these runs">
-            </class>
+                <input type="submit" class="submit" value="Register models in these runs">
             {% endif %}    
         </form>
-    </class>
+        <div class="menu_option">
+            <a class="text" href="{{url_for('index')}}">Home</a>
+        </div>
+    </div>
 </body>
 </html>

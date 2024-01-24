@@ -1,0 +1,31 @@
+body {
+    background-color: rgb(248, 246, 246);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .menu_option {
+    color: white;
+    text-decoration: none;
+    padding: 10px;
+    margin: 5px; /* Add margin for spacing between buttons */
+    border-radius: 5px; /* Optional: Add rounded corners for a button-like appearance */
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Add transition for a smooth hover effect */
+    width: 200px;
+    text-align: center;
+  }
+  
+  .text {
+    color: rgb(241, 4, 4);
+    text-decoration: none;
+  }
+  .heading {
+    font-size: large;
+    font-style: bold;
+    color: black;
+    text-align: center;
+  }

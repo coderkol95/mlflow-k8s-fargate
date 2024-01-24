@@ -3,27 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/train.css">
     <title>Train models</title>
 </head>
 <body>
-    <class id="input-form">
-        <form method="post" action="/train" enctype="multipart/form-data">
-            <class id="input-field">
-                <label for="name">Experiment name:</label>
+    <div class="input-form">
+        <div class="heading">
+            <h2>Train models</h2>
+        </div>
+        <form class="input-form" method="post" action="/train" enctype="multipart/form-data">
+            <div class="input-field-desc">
+            <h3>1. Models are trained by using lightning.</h3>
+            <h3>2. Depending on the no. of Optuna runs specified, various runs are generated.</h3>
+            <h3>3. Optuna automatically finds the best hyperparameters based on validation loss.</h3>
+            <h3>4. Data is dummy data for now. Later we will add S3 inputs.</h3>
+            <h3>5. Various inputs will be added later.</h3>
+           </div>
+            <div class="input-field">
+                <label class="desc" for="name">Experiment name:</label>
                 <input type="text" name="name" id="name" required>
-            </class>
-            <class id="input-field">
-                <label for="epochs">Epochs:</label>
+            </div>
+            <div class="input-field">
+                <label class="desc" for="epochs">Epochs:</label>
                 <input type="number" name="epochs" id="epochs" min="0" max="5">
-            </class>
-            <class id="input-field">
-                <label for="trials">Trials:</label>
+            </div>
+            <div class="input-field">
+                <label class="desc" for="trials">Trials:</label>
                 <input type="number" name="trials" id="trials" min="0" max="5">
-            </class>
-            <class id="submit-button">
-                <input type="submit" value="Run training experiment">
-            </class>
+            </div>
+                <input type="submit" class="submit" value="Run training experiment">
         </form>
-    </class>
+        <div class="menu_option">
+            <a class="text" href="{{url_for('index')}}">Home</a>
+        </div>
+    </div>
 </body>
 </html>

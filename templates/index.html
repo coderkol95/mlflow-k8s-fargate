@@ -3,22 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/css/index.css">
     <title>MLOps platform</title>
 </head>
-<body>    
-    <class id="menu">
-        <class id="menu_option">
-            <a href="{{url_for('train')}}">Train models</a>
-        </class>
-        <class id="menu_option">
-            <a href="{{url_for('experiments')}}">View previous experiments</a>
-        </class>
-        <class id="menu_option">
-            <a href="{{url_for('models')}}">Model registry</a>
-        </class>
-        <class id="menu_option">
-            <a href="{{url_for('endpoints')}}">Available endpoints</a>
-        </class>
-    </class>
+<body>
+    <div class="menu">
+        <div class="heading">
+            <h2>MLOps platform</h2>
+        </div>
+        <div class="desc">
+        <h3>Train models by specifying trials and epochs</h3>
+        <h3>Analyze experiments run on different dates, check loss values across runs</h3>
+        <h3>View registered models and register new models in the model registry</h3>
+        </div>
+        <div class="menu_option">
+            <a class="text" href="{{url_for('train')}}">Train models</a>
+        </div>
+        <div class="menu_option">
+            <a class="text" href="{{url_for('experiments')}}">View previous experiments</a>
+        </div>
+        <div class="menu_option">
+            <a class="text" href="{{url_for('models')}}">Model registry</a>
+        </div>
+        <!-- <div class="menu_option">
+            <a class="text" href="{{url_for('endpoints')}}">Available endpoints</a>
+        </div> -->
+    </div>
 </body>
 </html>
