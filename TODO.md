@@ -14,3 +14,8 @@
 - [X] Containerize it for a web app
 
 # EKS setup on Fargate
+
+- [X] Create deployment, service and ingress YAMLs - deployment working with port forwarding, problem with ingress in nginx-ingress with docker desktop
+- [ ] Setup EKS
+- [ ] Load balancing
+- [ ] Deploy on Fargate

@@ -1,5 +1,5 @@
 ~ Deployment, service and ingress:
-`kubectl apply -f k8s-config.yaml`
+`kubectl apply -f k8s-deployment.yaml`
 
 ~ Getting information
 `kubectl get nodes`
@@ -13,3 +13,6 @@
 
 ~ Port forwarding of service
 `kubectl port-forward service/mlops-service 8080:80`
+
+~ Accessing via LoadBalancer
+`http://localhost:80` ~Use service port in port:nodePort/TCP in kubectl get service
