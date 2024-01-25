@@ -39,7 +39,7 @@ This project aims to be a MLOPS template for UI friendly deep learning developme
 
 ### 4. Select models to register basis loss information
 
-###5. Enter their model names to register them
+### 5. Enter their model names to register them
 
 
 # Getting started
@@ -47,6 +47,7 @@ This project aims to be a MLOPS template for UI friendly deep learning developme
 1. Clone the repo
 2. Create a S3 bucket mlops-optuna with two folders inside: data/ and output/. Add X.csv and y.csv files inside data/. You will find them in data/ in this repository.
 3. Add a .env file with access key and security key for a AWS user. Follow these steps:
+
  a. Go to your IAM in AWS and create a user with this policy:
 ```
 {
@@ -76,12 +77,32 @@ This project aims to be a MLOPS template for UI friendly deep learning developme
     ]
 }
 ```
-4. Generate Access key and Secret Access key from the Security credentials section
-5. Add them to the .env file as below
+b. Generate Access key and Secret Access key from the Security credentials section
+c. Add them to the .env file as below
 ```
 AK="<access key>"
 SK="<secret access key>"
 ```
+5. Build a docker image from the Dockerfile with `docker build . -t mlops-webapp:3`
+
+# Different options of running
+
+## 1. Running the flask app locally
+ a. Go the the root of the project directory and run `` 
+ b. Go to localhost:5001
+
+## 2. Running through Docker locally
+ a. `docker run -p 5001:5001 mlops-webapp:3` 
+ b. Go to localhost:5001
+
+## 3. Running through Kubernetes via Docker desktop
+
+a. `kubectl apply -f k8s-deployment.yaml` -> This contains deployment, service and ingress manifests
+b. Either do port forwarding `kubectl port-forward service/mlops-service 8080:80` or install ingress controller via `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml` and run `kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission` followed by `kubectl get ingress`; then you will see the external IP.
+
+# Cleanup of resources in case of K8s
+
+`kubectl delete deploy,service,ingress -l  app=mlops`
 
 # About the author
 
