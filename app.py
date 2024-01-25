@@ -120,7 +120,6 @@ def run_experiment(name, epochs, trials, input_path, artifact_path, lr_min, lr_m
         'epochs':epochs,
         'trials':trials,
         'input_path':input_path,
-        'artifact_path':artifact_path,
         'lr_min':lr_min,
         'lr_max':lr_max,
         'dropout_min':dropout_min,
@@ -133,16 +132,19 @@ def run_experiment(name, epochs, trials, input_path, artifact_path, lr_min, lr_m
 
 def handle_artifact_upload(name, artifact_path):
     c=mlflow.MlflowClient()
-    exp_end_time=datetime.fromtimestamp(c.get_experiment_by_name(name=name).last_update_time/1e3)
-    print("\n\n",exp_end_time)
-    print(datetime.now())
-    print("\n\n",)
-    while (datetime.now()-exp_end_time).seconds/60<2:
-        print((datetime.now()-exp_end_time)/2)
-        print("Waiting...")
-        time.sleep(30)
-    upload_recursively_to_s3(artifact_path, AK, SK)
+    try:
+        exp_end_time=datetime.fromtimestamp(c.get_experiment_by_name(name=name).last_update_time/1e3)
 
+        print("\n\n",exp_end_time)
+        print(datetime.now())
+        print("\n\n",)
+        while (datetime.now()-exp_end_time).seconds/60<2:
+            print((datetime.now()-exp_end_time)/2)
+            print("Waiting...")
+            time.sleep(30)
+        upload_recursively_to_s3(artifact_path, AK, SK)
+    except:
+        print("Experiment not yet generated")
 
 def register_models(runs_to_register_model,model_names):
 

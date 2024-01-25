@@ -9,11 +9,10 @@ entry_points:
       epochs: {type: int, default: 3}
       trials: {type: int, default: 2}
       input_path: {type: str, default: "data"}
-      artifact_path: {type: str, default: "output"}
       lr_min: {type: float, default: 1e-5}
       lr_max: {type: float, default: 1e-1}
       dropout_min: {type: float, default: 0.2}
       dropout_max: {type: float, default: 0.5}
       n_layers_min: {type: int, default: 1}
       n_layers_max: {type: int, default: 5}
-    command: "python src/train.py {name} {epochs} {trials} {input_path} {artifact_path} {lr_min} {lr_max} {dropout_min} {dropout_max} {n_layers_min} {n_layers_max}"
+    command: "python src/train.py {name} {epochs} {trials} {input_path} {lr_min} {lr_max} {dropout_min} {dropout_max} {n_layers_min} {n_layers_max}"

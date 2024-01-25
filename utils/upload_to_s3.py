@@ -17,7 +17,7 @@ def upload_recursively_to_s3(destination,AK,SK):
             # construct the full local path
             local_path = os.path.join(root, filename)
             # construct the full Dropbox path
-            relative_path = os.path.relpath(local_path, local_directory)
+            relative_path = os.path.relpath(local_path, 'mlruns')
             s3_path = os.path.join(destination, relative_path)
             try:
                 print('Searching "%s" in "%s"' % (s3_path, bucket))

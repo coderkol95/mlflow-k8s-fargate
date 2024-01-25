@@ -38,7 +38,7 @@ def objective(trial):
     od="_".join(str(x) for x in output_dims)
     version = f"version_{round(dropout,2)}_{round(lr,2)}_{od}"
 
-    with mlflow.start_run(run_name=version, experiment_id=EXPERIMENT_ID,nested=True) as run:
+    with mlflow.start_run(run_name=version, experiment_id=EXPERIMENT_ID, nested=True) as run:
         
         mlflow.pytorch.autolog()
         mlflow.log_params(trial.params)
@@ -76,7 +76,7 @@ def get_or_create_experiment():
     if experiment := mlflow.get_experiment_by_name(EXPERIMENT_NAME):
         return experiment.experiment_id
     else:
-        return mlflow.create_experiment(EXPERIMENT_NAME,artifact_location=ARTIFACT_PATH)
+        return mlflow.create_experiment(EXPERIMENT_NAME)
 
 def args_handler():
 
@@ -85,7 +85,6 @@ def args_handler():
     a.add_argument("epochs", type=int)
     a.add_argument("trials", type=int)
     a.add_argument("input_path", type=str)
-    a.add_argument("artifact_path", type=str)
     a.add_argument("lr_min", type=float)
     a.add_argument("lr_max", type=float)
     a.add_argument("dropout_min", type=float)
@@ -107,7 +106,6 @@ if __name__=="__main__":
         INPUT_PATH='data'
     else:
         INPUT_PATH=args.input_path
-    ARTIFACT_PATH=args.artifact_path
 
     LR_MIN=args.lr_min
     LR_MAX=args.lr_max
