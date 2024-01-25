@@ -88,7 +88,7 @@ SK="<secret access key>"
 # Different options of running
 
 ## 1. Running the flask app locally
- a. Go the the root of the project directory and run `` 
+ a. Go the the root of the project directory and run `python src/train.py s3_trial 2 2 data 1e-5 1e-1 0.2 0.4 1 5` 
  b. Go to localhost:5001
 
 ## 2. Running through Docker locally
