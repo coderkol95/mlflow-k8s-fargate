@@ -5,6 +5,8 @@
 - [X] Flask/FastAPI for backend
     - [X] Backend server logic
     - [X] Training
+    - [X] Add inputs to alter training hyperparameters
+    - [X] Store all run details including artifacts in S3
     - [X] Viewing experiments and analyzing experiments
     - [X] Viewing registered models
     - [X] Registering a model

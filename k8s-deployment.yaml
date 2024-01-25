@@ -16,10 +16,9 @@ spec:
     spec:
       containers:
         - name: mlops-app
-          image: mlops-webapp:2
+          image: mlops-webapp:3
           ports:
           - containerPort: 5001
-
 # The deployment yaml is used to deploy the application to clusters. 
 # It describes a desired state which is managed and monitored by the deployment controller.
 # The controller adds a third part to this deployment yaml called 'status' where etcd details 

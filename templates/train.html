@@ -16,22 +16,68 @@
             <h3>1. Models are trained by using lightning.</h3>
             <h3>2. Depending on the no. of Optuna runs specified, various runs are generated.</h3>
             <h3>3. Optuna automatically finds the best hyperparameters based on validation loss.</h3>
-            <h3>4. Data is dummy data for now. Later we will add S3 inputs.</h3>
-            <h3>5. Various inputs will be added later.</h3>
+            <h3>4. Input path is the folder path inside mlops-optuna bucket like 'data/'.</h3>
+            <h3>5. Artifact path is the folder path inside mlops-optuna bucket like 'output/'.</h3>
+            <h3>6. Hyperparameter ranges are are also taken as inputs.</h3>
            </div>
+           <div class="input-form-boxes">
+
+           <div class="input-fields-box-top">
+            <h3>Run details</h3>
             <div class="input-field">
                 <label class="desc" for="name">Experiment name:</label>
-                <input type="text" name="name" id="name" required>
+                <input type="text" name="name" value="s3_trial" id="name" required>
             </div>
             <div class="input-field">
+                <label class="desc" for="input_path">Input path:</label>
+                <input type="text" name="input_path" value="data" id="input_path" required>
+            </div>            
+            <div class="input-field">
+                <label class="desc" for="artifact_path">Artifact path:</label>
+                <input type="text" name="artifact_path" value="output" id="artifact_path" required>
+            </div>
+           </div>
+
+           <div class="input-fields-box-left">
+            <h3>Model hyperparameters</h3>
+            <div class="input-field">
+                <label class="desc" for="lr_min">Min. LR:</label>
+                <input type="text" name="lr_min" value="1e-5" id="lr_min" required>
+            </div>            
+            <div class="input-field">
+                <label class="desc" for="dropout_min">Min. dropout rate:</label>
+                <input type="text" name="dropout_min" value="0.2" id="dropout_min" required>
+            </div>            
+            <div class="input-field">
+                <label class="desc" for="n_layers_min">Min. no. of layers:</label>
+                <input type="number" name="n_layers_min" value="1" id="n_layers_min" required min="0" max="10">
+            </div>  
+            <div class="input-field">
                 <label class="desc" for="epochs">Epochs:</label>
-                <input type="number" name="epochs" id="epochs" min="0" max="5">
+                <input type="number" name="epochs" value="1" id="epochs" min="0" max="5">
+            </div>
+            </div>
+            <div class="input-fields-box-right">
+            <h3>Model hyperparameters</h3>
+            <div class="input-field">
+                <label class="desc" for="lr_max">Max. LR:</label>
+                <input type="text" name="lr_max" value="1e-1" id="lr_max" required>
+            </div>
+            <div class="input-field">
+                <label class="desc" for="dropout_max">Max. dropout rate:</label>
+                <input type="text" name="dropout_max" value="0.4" id="dropout_max" required>
+            </div>
+            <div class="input-field">
+                <label class="desc" for="n_layers_max">Max. no. of layers:</label>
+                <input type="number" name="n_layers_max" value="5" id="n_layers_max" required min="0" max="10">
             </div>
             <div class="input-field">
                 <label class="desc" for="trials">Trials:</label>
-                <input type="number" name="trials" id="trials" min="0" max="5">
+                <input type="number" name="trials" value="1" id="trials" min="0" max="5">
             </div>
-                <input type="submit" class="submit" value="Run training experiment">
+           </div>
+        </div>
+            <input type="submit" class="submit" value="Run training experiment">
         </form>
         <div class="menu_option">
             <a class="text" href="{{url_for('index')}}">Home</a>

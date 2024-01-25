@@ -1,6 +1,12 @@
 from flask import Flask,render_template,url_for,request
 import mlflow
 from src.analyze_runs import get_past_experiments_details
+from utils.upload_to_s3 import upload_recursively_to_s3
+import os
+from datetime import datetime
+import time
+from dotenv import load_dotenv
+load_dotenv()
 
 ####################################################################################################
 # BACKEND SERVER LOGIC
@@ -20,10 +26,19 @@ def index():
 def train():
     if request.method=="POST":
         exp_name=request.form.get('name')
+        input_path=request.form.get('input_path')
+        artifact_path=request.form.get('artifact_path')
         epochs=request.form.get('epochs')
         trials=request.form.get('trials')
+        lr_min=request.form.get('lr_min')
+        lr_max=request.form.get('lr_max')
+        dropout_min=request.form.get('dropout_min')
+        dropout_max=request.form.get('dropout_max')
+        n_layers_min=request.form.get('n_layers_min')
+        n_layers_max=request.form.get('n_layers_max')
+
         try:
-            run_experiment(exp_name,epochs,trials)
+            run_experiment(exp_name,epochs,trials,input_path,artifact_path,lr_min,lr_max,dropout_min,dropout_max,n_layers_min,n_layers_max)
         except:
             raise RuntimeError("Error in training models")
         return render_template("index.html")
@@ -91,7 +106,7 @@ def endpoints():
 # BACKEND TRAINING/REGISTRATION CALLS
 ####################################################################################################
 
-def run_experiment(name, epochs, trials):
+def run_experiment(name, epochs, trials, input_path, artifact_path, lr_min, lr_max, dropout_min, dropout_max, n_layers_min, n_layers_max):
 
     mlflow.projects.run(
     uri=".",
@@ -103,13 +118,34 @@ def run_experiment(name, epochs, trials):
     parameters={
         'name':name,
         'epochs':epochs,
-        'trials':trials
+        'trials':trials,
+        'input_path':input_path,
+        'artifact_path':artifact_path,
+        'lr_min':lr_min,
+        'lr_max':lr_max,
+        'dropout_min':dropout_min,
+        'dropout_max':dropout_max,
+        'n_layers_min':n_layers_min,
+        'n_layers_max':n_layers_max
     },
     )
+    handle_artifact_upload(name, artifact_path)
+
+def handle_artifact_upload(name, artifact_path):
+    c=mlflow.MlflowClient()
+    exp_end_time=datetime.fromtimestamp(c.get_experiment_by_name(name=name).last_update_time/1e3)
+    print("\n\n",exp_end_time)
+    print(datetime.now())
+    print("\n\n",)
+    while (datetime.now()-exp_end_time).seconds/60<2:
+        print((datetime.now()-exp_end_time)/2)
+        print("Waiting...")
+        time.sleep(30)
+    upload_recursively_to_s3(artifact_path, AK, SK)
+
 
 def register_models(runs_to_register_model,model_names):
 
-    
     for run,model_name in zip(runs_to_register_model,model_names):
         mlflow.register_model(
             f"runs:/{run}/model", model_name,
@@ -119,4 +155,6 @@ def register_models(runs_to_register_model,model_names):
 
 if __name__=="__main__":
     exp=get_past_experiments_details()
+    AK=os.environ["AK"]
+    SK=os.environ["SK"]
     app.run(host="0.0.0.0", port=5001)

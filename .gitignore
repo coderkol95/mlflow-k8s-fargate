@@ -1,3 +1,5 @@
 config.json
 mlruns
 lightning_logs
+.env
+output

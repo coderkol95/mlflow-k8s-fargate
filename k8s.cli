@@ -9,7 +9,7 @@
 `kubectl get ingress`
 
 ~ Deleting resources
-`kubectl delete deploy,service,ingress -l  app=mlops` ~Port forwarding
+`kubectl delete deploy,service,ingress -l  app=mlops` 
 
 ~ Port forwarding of service
 `kubectl port-forward service/mlops-service 8080:80`
