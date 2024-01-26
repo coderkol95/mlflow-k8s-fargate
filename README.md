@@ -29,13 +29,13 @@ This project aims to be a MLOPS template for UI friendly deep learning developme
 
 ## Experiment analysis journey
 ### 1. Select the date
-<img width="1438" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/66374cbd-f961-43ab-8b79-2daa80307e2b">
+<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/77b1888e-af43-4391-90ba-d2a5db37caab">
 
 ### 2. Filter single/multiple experiments
 <img width="1439" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/4b9000fc-478f-4b2c-9db7-813b185bfd53">
 
 ### 3. Filter runs
-<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/3726b5ab-b097-48d6-98a7-0b36826fe7d3">
+<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/018ed758-c2cd-42ed-bad7-6204ee977bcb">
 
 ### 4. Select models to register basis loss information
 ![image](https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/a363adb7-a9b6-4ef5-84c1-d4cdd27cef98)
