@@ -67,7 +67,7 @@ This template can be extended and much much more features can be added!!!
 
 ```
 
-# About some specific files
+# Links between different files
 
 ## Dockerfile
 
@@ -75,7 +75,7 @@ This template can be extended and much much more features can be added!!!
 EXPOSE 5001 -> The port exposed in the docker container. This is used in k8s deployment containerPort
 ```
 
-## K8s manifest
+## K8s-deployment.yaml
 
 ```
 5. labels:
@@ -90,10 +90,21 @@ EXPOSE 5001 -> The port exposed in the docker container. This is used in k8s dep
 ```
 
 ## MLProject
+
 ```
 3. python_env: python_env.yaml -> As the web app is already running in a container, using the environment creation route for running the MLFlow experiments. This is done to keep the deployment and application simple instead of using nested dockers.
 ```
+
 ## src/train.py
+
+```
+All the hyper parameters from the UI are used here. If you add any HP, use the below route to ensure the inputs flow correctly.
+
+Hyperparameter route:
+
+train.html & css.html -> app.py train() ->app.py run_experiment() -> MLProject train: -> src/train.py __main__ 
+
+```
 
 # Getting started
 
