@@ -23,37 +23,6 @@ This project aims to be a MLOPS template for UI friendly deep learning developme
 This template can be extended and much much more features can be added!!!
 ```
 
-# Application snapshots
-
-## Landing page
-<img width="1439" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/a26e3888-9908-42f4-b7b2-ecf9a8007e1e">
-
-## Model training page
-<img width="1438" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/f0f54221-6685-4c35-b558-3cc64e8e450f">
-
-## Experiment analysis journey
-### 1. Select the date
-<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/77b1888e-af43-4391-90ba-d2a5db37caab">
-
-### 2. Filter single/multiple experiments
-<img width="1439" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/4b9000fc-478f-4b2c-9db7-813b185bfd53">
-
-### 3. Filter runs
-<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/018ed758-c2cd-42ed-bad7-6204ee977bcb">
-
-### 4. Select models to register basis loss information
-![image](https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/a363adb7-a9b6-4ef5-84c1-d4cdd27cef98)
-
-### 5. Enter their model names to register them
-<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/d692dbf4-98c8-48be-8953-295de326515a">
-
-## Model registry
-<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/8e3a0707-bdad-46a2-88a7-ffe3b8ff7a10">
-
-## Runs details stored in s3
-<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/96ffca7d-f23e-4357-94c8-07962b6a0a3f">
-
-
 # Directory structure
 
 ```
@@ -102,10 +71,28 @@ This template can be extended and much much more features can be added!!!
 
 ## Dockerfile
 
+```
+EXPOSE 5001 -> The port exposed in the docker container. This is used in k8s deployment containerPort
+```
+
 ## K8s manifest
 
-## MLProject
+```
+5. labels:
+     app: mlops -> Used everywhere for identifying the app. I have not used namespace as I am running only one K8s application.
+19. image: mlops-webapp:3 -> The docker image and version. If you are rebuilding the image, ensure that the correct image is used
+21. containerPort: 5001 -> The container port mentioned in the Dockerfile
+39. port: 80 -> The port on which this web app service is running
+    targetPort: 5001 -> The containerPort of the web app
+63. name: mlops-service
+      port:
+        number: 80 -> The port of the service mentioned above
+```
 
+## MLProject
+```
+3. python_env: python_env.yaml -> As the web app is already running in a container, using the environment creation route for running the MLFlow experiments. This is done to keep the deployment and application simple instead of using nested dockers.
+```
 ## src/train.py
 
 # Getting started
@@ -173,6 +160,38 @@ b. Either do port forwarding `kubectl port-forward service/mlops-service 8080:80
 # About the author
 
 Anupam works at a leading pharmaceutical company as a ML engineer. He is passionate about bringing value to enterprises through production grade ML solutions. In his free time he loves listening to music, cooking, painting and going on trips. You may reach him at anupammisra1995@gmail.com.
+
+# Application snapshots
+
+## Landing page
+<img width="1439" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/a26e3888-9908-42f4-b7b2-ecf9a8007e1e">
+
+## Model training page
+<img width="1438" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/f0f54221-6685-4c35-b558-3cc64e8e450f">
+
+## Experiment analysis journey
+### 1. Select the date
+<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/77b1888e-af43-4391-90ba-d2a5db37caab">
+
+### 2. Filter single/multiple experiments
+<img width="1439" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/4b9000fc-478f-4b2c-9db7-813b185bfd53">
+
+### 3. Filter runs
+<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/018ed758-c2cd-42ed-bad7-6204ee977bcb">
+
+### 4. Select models to register basis loss information
+![image](https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/a363adb7-a9b6-4ef5-84c1-d4cdd27cef98)
+
+### 5. Enter their model names to register them
+<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/d692dbf4-98c8-48be-8953-295de326515a">
+
+## Model registry
+<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/8e3a0707-bdad-46a2-88a7-ffe3b8ff7a10">
+
+## Runs details stored in s3
+<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/96ffca7d-f23e-4357-94c8-07962b6a0a3f">
+
+
 
 # Future improvements
 
