@@ -38,8 +38,13 @@ This project aims to be a MLOPS template for UI friendly deep learning developme
 <img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/3726b5ab-b097-48d6-98a7-0b36826fe7d3">
 
 ### 4. Select models to register basis loss information
+![image](https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/a363adb7-a9b6-4ef5-84c1-d4cdd27cef98)
 
 ### 5. Enter their model names to register them
+<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/d692dbf4-98c8-48be-8953-295de326515a">
+
+## Model registry
+<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/8e3a0707-bdad-46a2-88a7-ffe3b8ff7a10">
 
 
 # Getting started
