@@ -5,7 +5,7 @@
 This project aims to be a MLOPS template for UI friendly deep learning development using Optuna and Pytorch, and deployed easily on a K8s cluster.
 . This project demonstrates a MLOps application running on Kubernetes with these features
 * Preprocessed training data is directly taken from AWS S3 path given by user.
-* A artificial neural network trains on the data using [Pytorch Lightning](https://lightning.ai/docs/pytorch/stable/).
+* An artificial neural network is trained using [Pytorch Lightning](https://lightning.ai/docs/pytorch/stable/).
 * Automatic hyperparameter tuning is done using [Optuna](https://optuna.org/).
 * Lifecycle management of the project is done using [mlFlow](https://mlflow.org/).
 * All the operations are managed through a web app built using Flask, HTML and CSS.
@@ -18,6 +18,10 @@ This project aims to be a MLOPS template for UI friendly deep learning developme
 * Optuna automatically finds the best hyperparameters [Hyperparameter ranges are supplied via the UI]
 * Automatic scaling via Kubernetes
 * Stateful data fetching and experiment run saving from/to S3
+
+```
+This template can be extended and much much more features can be added!!!
+```
 
 # Application snapshots
 
@@ -46,6 +50,63 @@ This project aims to be a MLOPS template for UI friendly deep learning developme
 ## Model registry
 <img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/8e3a0707-bdad-46a2-88a7-ffe3b8ff7a10">
 
+## Runs details stored in s3
+<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/96ffca7d-f23e-4357-94c8-07962b6a0a3f">
+
+
+# Directory structure
+
+```
+/
+ └── data/                    
+         X.csv                               # Training input features file
+         y.csv                               # Training input target file
+ └── {s3.folder}/ {s3.input files}           # Training data downloaded from s3
+ └── mlruns/
+      └── {experiment_ID}/
+             └── {run_ID}/ {run artifacts}   # Run artifacts stored here
+ └── src/
+         train.py                            # The main model training file, referred by MLProject
+         neural_network.py                   # The neural network architecture implemented using lightning.pytorch.LightningModule
+         datawork.py                         # The data preprocessing module implemented using lightning.pytorch.LightningDataModule
+         analyze_runs.py                     # The module which fetches all the data from mlFlow Client required by out web app
+ └── static/
+     └── css/                                # CSS files
+             index.css                       
+             train.css
+             experiments.css
+             models.css
+             404.css
+ └── templates/                              # HTML files
+             index.html
+             train.html
+             experiments.html
+             models.html
+             404.html
+ └── utils/
+         upload_to_s3.py                     # The file which recursively uploads the mlruns/ after a training experiment 
+ .env                                        # Environment variables are stored here AK and SK
+ Dockerfile                                  # Simple containerisation and exposing the Flask web app on port 5001
+ .gitignore                                  # Ignoring unnecesary files
+ app.py                                      # The Flask web application
+ config.json                                 # Random state value, batch size and other configurations for lightning.pytorch are fetched from here
+ k8s-deployment.yaml                         # The Kubernetes deployments, service and ingress details
+ LICENSE                                     # MIT license
+ MLProject                                   # MLProject file used by the web application. MLProject is run using an environment as it is already running inside a dockerised web app
+ python_env.yaml                             # The environment creation details for running mlFLow experiment
+ requirements.txt                            # Requirements file for python environment
+
+```
+
+# About some specific files
+
+## Dockerfile
+
+## K8s manifest
+
+## MLProject
+
+## src/train.py
 
 # Getting started
 
