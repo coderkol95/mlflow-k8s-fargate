@@ -2,22 +2,23 @@
 
 ## Introduction
 
-This project aims to be a MLOPS template for UI friendly deep learning development using Optuna and Pytorch, and deployed easily on a K8s cluster.
-. This project demonstrates a MLOps application running on Kubernetes with these features
-* Preprocessed training data is directly taken from AWS S3 path given by user.
-* An artificial neural network is trained using [Pytorch Lightning](https://lightning.ai/docs/pytorch/stable/).
-* Automatic hyperparameter tuning is done using [Optuna](https://optuna.org/).
-* Lifecycle management of the project is done using [mlFlow](https://mlflow.org/).
-* All the operations are managed through a web app built using Flask, HTML and CSS.
-* The web app is containerized and runs on Kubernetes
+This project aims to be a MLOPS template for UI friendly deep learning development using Optuna and Pytorch running on a K8s cluster.
+
+The following features are demonstrated:
+* Download preprocessed training data from AWS S3 path given by user
+* Train an artificial neural network using [Pytorch Lightning](https://lightning.ai/docs/pytorch/stable/).
+* Automatic hyperparameter tuning using [Optuna](https://optuna.org/).
+* Lifecycle management of the project using [mlFlow](https://mlflow.org/).
+* Provide a web interface built using Flask, HTML and CSS.
+* Container execution in Kubernetes cluster
 
 ## Advantages of this approach
 
-* Simple UI based controls for model development, experiment analysis and model registration
-* Dockerization ensures portability, repeatability and scalability
-* Optuna automatically finds the best hyperparameters [Hyperparameter ranges are supplied via the UI]
-* Automatic scaling via Kubernetes
-* Stateful data fetching and experiment run saving from/to S3
+* Simple UI based controls for model development, experiment analysis and model registration.
+* Dockerization ensures portability, repeatability and scalability.
+* Optuna automatically finds the best hyperparameters [Hyperparameter ranges are supplied via the UI].
+* Automatic resilience, scaling and load balancing via Kubernetes.
+* Stateful data fetching and experiment run saving from/to S3.
 
 ```
 This template can be extended and much much more features can be added!!!
@@ -30,15 +31,15 @@ This template can be extended and much much more features can be added!!!
  └── data/                    
          X.csv                               # Training input features file
          y.csv                               # Training input target file
- └── {s3.folder}/ {s3.input files}           # Training data downloaded from s3
+ └── {s3.folder}/ {s3.input files}           # Training data is downloaded from s3 folder given by user to local folder with same name
  └── mlruns/
       └── {experiment_ID}/
-             └── {run_ID}/ {run artifacts}   # Run artifacts stored here
+             └── {run_ID}/ {run artifacts}   # Run artifacts are stored here
  └── src/
-         train.py                            # The main model training file, referred by MLProject
-         neural_network.py                   # The neural network architecture implemented using lightning.pytorch.LightningModule
+         train.py                            # MLProject uses this file for model training
+         neural_network.py                   # The neural network module implemented using lightning.pytorch.LightningModule
          datawork.py                         # The data preprocessing module implemented using lightning.pytorch.LightningDataModule
-         analyze_runs.py                     # The module which fetches all the data from mlFlow Client required by out web app
+         analyze_runs.py                     # The module which provides required data to the web app from the MLFlowClient
  └── static/
      └── css/                                # CSS files
              index.css                       
@@ -53,7 +54,7 @@ This template can be extended and much much more features can be added!!!
              models.html
              404.html
  └── utils/
-         upload_to_s3.py                     # The file which recursively uploads the mlruns/ after a training experiment 
+         upload_to_s3.py                     # This file recursively uploads the mlruns/ after each training experiment
  .env                                        # Environment variables are stored here AK and SK
  Dockerfile                                  # Simple containerisation and exposing the Flask web app on port 5001
  .gitignore                                  # Ignoring unnecesary files
