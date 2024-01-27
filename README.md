@@ -28,6 +28,9 @@ This template can be extended and much much more features can be added!!!
 
 ```
 /
+ └──.github/
+      └── workflows/                    
+             push_app_image_to_ecr.yaml      # Pushes the updated web application image to AWS ECR using Github Actions; Also updates the K8s manifest to use the updated image
  └── data/                    
          X.csv                               # Training input features file
          y.csv                               # Training input target file
