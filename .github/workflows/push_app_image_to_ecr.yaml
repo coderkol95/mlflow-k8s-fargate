@@ -36,7 +36,7 @@ jobs:
     - name: Automatic Tagging of Releases
       id: increment-git-tag
       run: |
-        bash git_update.sh -v patch
+        bash git_update.sh -v minor
     - name: Build, Tag, and Push the Image to Amazon ECR
       id: build-image
       env:
@@ -60,6 +60,10 @@ jobs:
       uses: actions/setup-python@v4
       with: 
         python-version: "3.9"
+    - name: Install python packages
+      run: |
+        python -m pip install --upgrade pip
+        pip install python-dotenv==1.0.1
     - name: Update docker image version in k8s file
       env:
         IMAGE_TAG: ${{ needs.build-and-push-image.outputs.output }}
