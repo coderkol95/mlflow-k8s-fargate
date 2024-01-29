@@ -206,7 +206,8 @@ Anupam works at a leading pharmaceutical company as a ML engineer. He is passion
 ## Runs details stored in s3
 <img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/96ffca7d-f23e-4357-94c8-07962b6a0a3f">
 
-
+## Image uploaded to ECR
+<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/a3b11923-e8e0-4c26-903f-e496f8a3cfb2">
 
 # Future improvements
 
