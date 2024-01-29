@@ -75,6 +75,6 @@ jobs:
         git config --local user.name "GitHub Action"
         git add -A
         git commit -m "Image uploaded to ECR and YAML file updated." || exit 0
-        git push https://x-access-token:${GITHUB_TOKEN}@github.com/mlflow-optuna-k8s-.git HEAD
+        git push https://x-access-token:${GITHUB_TOKEN}@github.com/mlflow-optuna-k8s.git HEAD
       env:
         GITHUB_TOKEN: ${{ secrets.PAT }}
