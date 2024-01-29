@@ -8,10 +8,10 @@ on:
         - templates/*
         - utils/*
         - app.py
-        - k8s-deployment.yaml
+        # - k8s-deployment.yaml
         - Dockerfile
         - MLProject
-        - .github/workflows/push_app_image_to_ecr.yaml
+        # - .github/workflows/push_app_image_to_ecr.yaml
 jobs:
   build-and-push-image:
     name: Build and Push to ECR
