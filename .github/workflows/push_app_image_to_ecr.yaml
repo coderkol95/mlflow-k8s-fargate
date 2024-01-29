@@ -73,10 +73,8 @@ jobs:
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add .
+        git add -A
         git commit -m "Image uploaded to ECR and YAML file updated." || exit 0
-        git remote add origin https://${GITHUB_TOKEN}@github.com/coderkol95/mlflow-optuna-k8s.git
-        git config pull.rebase true
-        git push origin main
+        git push https://x-access-token:${GITHUB_TOKEN}@github.com/coderkol95/mlflow-optuna-k8s.git HEAD
       env:
         GITHUB_TOKEN: ${{ secrets.PAT }}
