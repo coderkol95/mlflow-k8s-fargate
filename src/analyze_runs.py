@@ -107,7 +107,7 @@ class MLFlow_app_client():
         for r in runs:
             named_runs.append(self.client.get_run(r).info.run_name)
         return runs,named_runs
-    
+
     def get_exp_names(self,exp_ids):
 
         names=[]

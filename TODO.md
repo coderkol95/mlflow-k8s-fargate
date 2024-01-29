@@ -14,8 +14,8 @@
 - [ ] JS for frontend - Focusing time and energy in other places instead of frontend.
 - [X] Track and visualize results
 - [X] Containerize it for a web app
-- [ ] Better code and cleaner code
-- [ ] Catching exceptions
+- [ ] Better code and catching exceptions
+- [ ] Improve README
 
 # EKS setup on Fargate
 
