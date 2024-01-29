@@ -30,7 +30,7 @@ This template can be extended and much much more features can be added!!!
 /
  └──.github/
       └── workflows/                    
-             push_app_image_to_ecr.yaml      # Pushes the updated web application image to AWS ECR using Github Actions; Also updates the K8s manifest to use the updated image
+             push_app_image_to_ecr.yaml      # Pushes web app image to AWS ECR using Github Actions; Automatically versions the release and updates the K8s manifest to use the updated  image
  └── data/                    
          X.csv                               # Training input features file
          y.csv                               # Training input target file
@@ -58,6 +58,7 @@ This template can be extended and much much more features can be added!!!
              404.html
  └── utils/
          upload_to_s3.py                     # This file recursively uploads the mlruns/ after each training experiment
+         update-k8s-deployment.py            # This file is used by Github Actions to automatically update the image version in the k8s-deployment.yaml
  .env                                        # Environment variables are stored here AK and SK
  Dockerfile                                  # Simple containerisation and exposing the Flask web app on port 5001
  .gitignore                                  # Ignoring unnecesary files
@@ -68,6 +69,7 @@ This template can be extended and much much more features can be added!!!
  MLProject                                   # MLProject file used by the web application. MLProject is run using an environment as it is already running inside a dockerised web app
  python_env.yaml                             # The environment creation details for running mlFLow experiment
  requirements.txt                            # Requirements file for python environment
+ git_update.sh                               # Used by Github Actions for versioning the docker image, supports major, minor and patch versioning
 
 ```
 
@@ -106,15 +108,16 @@ All the hyper parameters from the UI are used here. If you add any HP, use the b
 
 Hyperparameter route:
 
-train.html & css.html -> app.py train() ->app.py run_experiment() -> MLProject train: -> src/train.py __main__ 
+train.html & css.html -> app.py train() ->app.py run_experiment() -> MLProject train: -> src/train.py __main__()
 
 ```
 
 # Getting started
 
-1. Clone the repo
-2. Create a S3 bucket mlops-optuna with two folders inside: data/ and output/. Add X.csv and y.csv files inside data/. You will find them in data/ in this repository.
-3. Add a .env file with access key and security key for a AWS user. Follow these steps:
+1. Clone the repo using `git clone https://github.com/coderkol95/mlflow-optuna-k8s.git`
+2. Create a S3 bucket mlops-optuna with two folders: data/ and output/. Add X.csv and y.csv files inside data/. You will find them in data/ in this repository.
+3. Create a private repository called mlops-webapp in ECR.
+4. Add a .env file with access key and security key for a AWS user. Follow these steps:
 
  a. Go to your IAM in AWS and create a user with this policy:
 ```
@@ -151,7 +154,44 @@ c. Add them to the .env file as below
 AK="<access key>"
 SK="<secret access key>"
 ```
-5. Build a docker image from the Dockerfile with `docker build . -t mlops-webapp:3`
+d. Also create a user with permissions to push images to ECR. Follow these steps:
+a. Create an IAM user with this policy:
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "GetAuthorizationToken",
+            "Effect": "Allow",
+            "Action": [
+                "ecr:GetAuthorizationToken"
+            ],
+            "Resource": "*"
+        },
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ecr:BatchGetImage",
+                "ecr:BatchCheckLayerAvailability",
+                "ecr:CompleteLayerUpload",
+                "ecr:GetDownloadUrlForLayer",
+                "ecr:InitiateLayerUpload",
+                "ecr:PutImage",
+                "ecr:UploadLayerPart"
+            ],
+            "Resource": [
+                "arn:aws:ecr:us-east-1:<YOUR_ACCOUNT_ID>:repository/mlops-webapp"
+           ]
+        }
+    ]
+}
+```
+b. Generate the user's access key and secret access key. Add them to the repository's secrets as ECR_PUSH_AK and ECR_PUSH_SK
+
+5. Build a docker image from the Dockerfile with `docker build . -t mlops-webapp:1`. This is for local testing, for deployment in EKS, an image would be automatically uploaded by Github Actions
+
+6. Go to settings>developer settings and generate a fine grained PAT with r/w access for code and workflows. Add this PAT to the repository's secrets as PAT
+
 
 # Different options of running
 
@@ -160,17 +200,47 @@ SK="<secret access key>"
  b. Go to localhost:5001
 
 ## 2. Running through Docker locally
- a. `docker run -p 5001:5001 mlops-webapp:3` 
+ a. `docker run -p 5001:5001 mlops-webapp:1` 
  b. Go to localhost:5001
 
 ## 3. Running through Kubernetes via Docker desktop
 
-a. `kubectl apply -f k8s-deployment.yaml` -> This contains deployment, service and ingress manifests
-b. Either do port forwarding `kubectl port-forward service/mlops-service 8080:80` or install ingress controller via `kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml` and run `kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission` followed by `kubectl get ingress`; then you will see the external IP.
+Docker desktop supports running Kubernetes. Enable Kubernetes in the settings. 
 
-# Cleanup of resources in case of K8s
+You need to create deployments, publish services to them and add ingress routes to the published services:
+`kubectl apply -f k8s-deployment.yaml`
+```
+This file contains 3 parts
+1. Deployment spec : Specifies no. of pods, container image details.
+2. Service spec: Specifies the service which will be using the deployment.
+3. Ingress spec: This exposes the cluster(default via clusterIP) to web traffic. Different APIs are different routes with services deployed. In a microservice based architecture this is where you'd route to different services on hitting different APIs.
+```
 
-`kubectl delete deploy,service,ingress -l  app=mlops`
+Verify the deployments have worked:
+`kubectl get deployments`
+
+Verify the service is available:
+`kubectl get service`
+
+Once the service is available, you can access it via port forwarding `kubectl port-forward service/mlops-service 8080:80` here 8080 refers to the port on your local machine and 80 is the port on the service, this is displayed when you check service availability. 
+
+
+If you want to verify ingress, there are two steps:
+1. Install an ingress controller like nginx:
+
+`kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml`
+`kubectl delete -A ValidatingWebhookConfiguration ingress-nginx-admission` 
+
+Wait for sometime for ingress deployments to show up in Docker - check via Docker dashboard.
+
+2. Verify ingress is available
+ 
+`kubectl get ingress`
+You should see an external IP here. That is your ingress IP address to the cluster.
+
+# Cleanup of resources in case of K8s deployment via Docker desktop
+
+`kubectl delete deployments,service,ingress -l app=mlops`
 
 # About the author
 
@@ -194,19 +264,19 @@ Anupam works at a leading pharmaceutical company as a ML engineer. He is passion
 ### 3. Filter runs
 <img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/018ed758-c2cd-42ed-bad7-6204ee977bcb">
 
-### 4. Select models to register basis loss information
+### 4. Select models to register based on loss' information
 <img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/324466f3-0145-4363-97c5-37d15144638e">
 
-### 5. Enter their model names to register them
+### 5. Enter the model names to register them
 <img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/d692dbf4-98c8-48be-8953-295de326515a">
 
 ## Model registry
 <img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/8e3a0707-bdad-46a2-88a7-ffe3b8ff7a10">
 
-## Runs details stored in s3
+## Run details stored in s3
 <img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/96ffca7d-f23e-4357-94c8-07962b6a0a3f">
 
-## Image uploaded to ECR
+## Image uploaded to ECR by Github Actions
 <img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/a3b11923-e8e0-4c26-903f-e496f8a3cfb2">
 
 # Future improvements
