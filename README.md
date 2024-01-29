@@ -10,7 +10,8 @@ The following features are demonstrated:
 * Automatic hyperparameter tuning using [Optuna](https://optuna.org/).
 * Lifecycle management of the project using [mlFlow](https://mlflow.org/).
 * Provide a web interface built using Flask, HTML and CSS.
-* Container execution in Kubernetes cluster
+* Automatic image versioning and upload to ECR via Github Actions.
+* Container execution in Kubernetes cluster.
 
 ## Advantages of this approach
 
@@ -19,6 +20,7 @@ The following features are demonstrated:
 * Optuna automatically finds the best hyperparameters [Hyperparameter ranges are supplied via the UI].
 * Automatic resilience, scaling and load balancing via Kubernetes.
 * Stateful data fetching and experiment run saving from/to S3.
+* Latest image always available for deployment from ECR.
 
 ```
 This template can be extended and much much more features can be added!!!
