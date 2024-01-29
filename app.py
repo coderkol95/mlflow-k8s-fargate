@@ -47,6 +47,7 @@ def train():
 @app.route("/experiments", methods=["GET","POST"])
 def experiments():
     if request.method=="POST":
+        # select date
         if request.form.get('date-selector'):
             global date_selected
             date_selected=request.form.get('date-selector')
@@ -54,7 +55,7 @@ def experiments():
             filtered_exp_names=exp.get_exp_names(filtered_exps)
             print(filtered_exp_names)
             return render_template("experiments.html", exps=filtered_exp_names)
-
+        # select experiments
         elif request.form.getlist('selected_exps'):
             exps_selected=request.form.getlist('selected_exps')
             print(exps_selected)
@@ -62,13 +63,10 @@ def experiments():
             global run_names,filtered_runs
             filtered_runs,run_names=exp.get_run_names_in_exp(experiment_ids)
             return render_template("experiments.html", runs=run_names)
-    
+        # select runs to view losses of
         elif request.form.getlist('selected_runs'):
             runs_selected=request.form.getlist('selected_runs')
             print(runs_selected)
-
-            #get run ID
-
             selected_run_ids=[]
 
             for name,run_id in zip(run_names,filtered_runs):
@@ -76,9 +74,9 @@ def experiments():
                     selected_run_ids.append(run_id)
 
             loss_table=exp.compare_losses(date_selected,selected_run_ids)
-            loss_table_with_names=dict(zip(run_names,list(loss_table.values())))
+            loss_table_with_names=dict(zip(runs_selected,list(loss_table.values())))
             return render_template("experiments.html", losses=loss_table_with_names)
-        
+        # select models to register
         elif request.form.getlist('selected_runs_to_register_model'):
             global runs_to_register_model
             runs_to_register_model=request.form.getlist('selected_runs_to_register_model')

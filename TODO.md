@@ -20,7 +20,7 @@
 # EKS setup on Fargate
 
 - [X] Create deployment, service and ingress YAMLs - deployment working with port forwarding and ingress
-- [ ] Automatic upload of image to ECR
-- [ ] Setup EKS
-- [ ] Load balancing?
-- [ ] Deploy on Fargate
+- [X] Automatic upload of image to ECR
+
+- [ ] Setup EKS - Later
+- [ ] Deploy on Fargate - Later

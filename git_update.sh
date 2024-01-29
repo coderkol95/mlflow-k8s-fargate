@@ -16,7 +16,7 @@ CURRENT_VERSION=`git describe --abbrev=0 --tags 2>/dev/null`
 
 if [[ $CURRENT_VERSION == '' ]]
 then
-  CURRENT_VERSION='0.1.0'
+  CURRENT_VERSION='v0.1.0'
 fi
 echo "Current Version: $CURRENT_VERSION"
 
@@ -30,7 +30,7 @@ VNUM3=${CURRENT_VERSION_PARTS[2]}
 
 if [[ $VERSION == 'major' ]]
 then
-  VNUM1=$((VNUM1+1))
+  VNUM1=v$((VNUM1+1))
 elif [[ $VERSION == 'minor' ]]
 then
   VNUM2=$((VNUM2+1))
