@@ -19,12 +19,12 @@ with open("config.json","r") as f:
 
 RANDOM_SEED=configs["RANDOM STATE"]
 
-class log_losses(Callback):
+# class log_losses(Callback):
 
-    def on_train_epoch_end(self, trainer, pl_module):
-        mlflow.log_metric('train_loss_epochs', trainer.logged_metrics['train_loss'])
-    def on_validation_epoch_end(self, trainer, pl_module):
-        mlflow.log_metric('val_loss_epochs', trainer.logged_metrics['val_loss'])
+#     def on_train_epoch_end(self, trainer, pl_module):
+#         mlflow.log_metric('train_loss_epochs', trainer.logged_metrics['train_loss'])
+#     def on_validation_epoch_end(self, trainer, pl_module):
+#         mlflow.log_metric('val_loss_epochs', trainer.logged_metrics['val_loss'])
 
 def objective(trial):
     # We optimize the number of layers, hidden units in each layer, dropout and the learning rate.

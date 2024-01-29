@@ -3,7 +3,7 @@ from glob import glob
 import datetime
 import json
 
-class get_past_experiments_details():
+class MLFlow_app_client():
     def __init__(self):
         self.client=mlflow.MlflowClient()
         self.generate_dates_to_exps_mappings()
@@ -38,7 +38,7 @@ class get_past_experiments_details():
 
     def generate_exps_to_runs_mappings(self):
         self.exps_to_runs={y:[x.split('/')[-1] for x in glob(f"mlruns/{y}/*") if 'meta' not in x] for y in self.experiment_ids}
-    
+
     def get_exp_and_run_losses_for_date_detailed(self,date:str):
 
         exps=self.dates_to_exps[date]
@@ -96,12 +96,17 @@ class get_past_experiments_details():
         run_losses=dict(x for row in losses_table.values() for x in row.items())
         return {r:run_losses[r] for r in runs}
 
-    def get_run_ids(self,exps):
+    def get_run_names_in_exp(self,exps):
 
         runs=[]
         for e in exps:
             runs.extend(self.exps_to_runs[e])
-        return runs
+
+        named_runs=[]
+        print("\n\n",runs,"\n\n")
+        for r in runs:
+            named_runs.append(self.client.get_run(r).info.run_name)
+        return runs,named_runs
     
     def get_exp_names(self,exp_ids):
 
@@ -110,6 +115,19 @@ class get_past_experiments_details():
             names.append(self.client.get_experiment(exp_id).name)
         return names
     
+    def get_run_ids_from_names(self,run_names_for_ids):
+
+        run_ids=list(self.exps_to_runs.values())
+        flat_run_ids=[i for exp_run_ids in run_ids for i in exp_run_ids]
+        run_names=[self.client.get_run(r).info.run_name for r in flat_run_ids]
+        self.names_to_run_ids=dict(zip(run_names,flat_run_ids))
+
+        run_ids_to_return=[]
+        for name in run_names_for_ids:
+            run_ids_to_return.append(self.names_to_run_ids[name])
+
+        return run_ids_to_return
+
     def experiment_names_to_ids(self, names):
 
         exp_ids=[]

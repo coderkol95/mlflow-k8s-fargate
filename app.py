@@ -1,6 +1,6 @@
 from flask import Flask,render_template,url_for,request
 import mlflow
-from src.analyze_runs import get_past_experiments_details
+from src.analyze_runs import MLFlow_app_client
 from utils.upload_to_s3 import upload_recursively_to_s3
 import os
 from datetime import datetime
@@ -59,25 +59,37 @@ def experiments():
             exps_selected=request.form.getlist('selected_exps')
             print(exps_selected)
             experiment_ids=exp.experiment_names_to_ids(exps_selected)
-            filtered_runs=exp.get_run_ids(experiment_ids)
-            return render_template("experiments.html", runs=filtered_runs)
+            global run_names,filtered_runs
+            filtered_runs,run_names=exp.get_run_names_in_exp(experiment_ids)
+            return render_template("experiments.html", runs=run_names)
     
         elif request.form.getlist('selected_runs'):
             runs_selected=request.form.getlist('selected_runs')
             print(runs_selected)
-            loss_table=exp.compare_losses(date_selected,runs_selected)
 
-            return render_template("experiments.html", losses=loss_table)
+            #get run ID
+
+            selected_run_ids=[]
+
+            for name,run_id in zip(run_names,filtered_runs):
+                if name in runs_selected:
+                    selected_run_ids.append(run_id)
+
+            loss_table=exp.compare_losses(date_selected,selected_run_ids)
+            loss_table_with_names=dict(zip(run_names,list(loss_table.values())))
+            return render_template("experiments.html", losses=loss_table_with_names)
         
         elif request.form.getlist('selected_runs_to_register_model'):
             global runs_to_register_model
             runs_to_register_model=request.form.getlist('selected_runs_to_register_model')
             print(runs_to_register_model)
 
+            runs_to_register_model_ids=exp.get_run_ids_from_names(runs_to_register_model)
+
             registered_models=exp.get_registered_models()
-            dates_for_registered_models=exp.get_dates_of_runs(runs_to_register_model)
+            dates_for_registered_models=exp.get_dates_of_runs(runs_to_register_model_ids)
             print(dates_for_registered_models)
-            new_registration_details=[[x,y] for (x,y) in zip(dates_for_registered_models,runs_to_register_model)]
+            new_registration_details=[[x,y] for (x,y) in zip(dates_for_registered_models,runs_to_register_model_ids)]
             print(new_registration_details)
             return render_template("models.html",registered_models=registered_models, new_models=new_registration_details)
 
@@ -131,9 +143,8 @@ def run_experiment(name, epochs, trials, input_path, artifact_path, lr_min, lr_m
     handle_artifact_upload(name, artifact_path)
 
 def handle_artifact_upload(name, artifact_path):
-    c=mlflow.MlflowClient()
     try:
-        exp_end_time=datetime.fromtimestamp(c.get_experiment_by_name(name=name).last_update_time/1e3)
+        exp_end_time=datetime.fromtimestamp(mlfc.get_experiment_by_name(name=name).last_update_time/1e3)
 
         print("\n\n",exp_end_time)
         print(datetime.now())
@@ -156,7 +167,8 @@ def register_models(runs_to_register_model,model_names):
             )
 
 if __name__=="__main__":
-    exp=get_past_experiments_details()
+    exp=MLFlow_app_client()
+    mlfc=mlflow.MlflowClient()
     AK=os.environ["AK"]
     SK=os.environ["SK"]
     app.run(host="0.0.0.0", port=5001)
