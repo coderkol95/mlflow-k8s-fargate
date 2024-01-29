@@ -195,7 +195,7 @@ Anupam works at a leading pharmaceutical company as a ML engineer. He is passion
 <img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/018ed758-c2cd-42ed-bad7-6204ee977bcb">
 
 ### 4. Select models to register basis loss information
-<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/ca685ba1-1b59-486b-ada6-da6d79b0bfcc">
+<img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/324466f3-0145-4363-97c5-37d15144638e">
 
 ### 5. Enter their model names to register them
 <img width="1440" alt="image" src="https://github.com/coderkol95/mlflow-optuna-k8s/assets/15844821/d692dbf4-98c8-48be-8953-295de326515a">
