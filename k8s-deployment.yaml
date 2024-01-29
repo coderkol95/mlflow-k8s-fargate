@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
         - name: mlops-app
-          image: 879444378775.dkr.ecr.us-east-1.amazonaws.com/mlops-webapp:0.0.0
+          image: mlops-webapp:1
+          # image: 879444378775.dkr.ecr.us-east-1.amazonaws.com/mlops-webapp:0.0.0
           ports:
           - containerPort: 5001
 # The deployment yaml is used to deploy the application to clusters. 
