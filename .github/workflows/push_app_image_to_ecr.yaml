@@ -69,3 +69,12 @@ jobs:
         IMAGE_TAG: ${{ needs.build-and-push-image.outputs.output }}
       run: python update-k8s-deployment.py
       working-directory: utils
+    - name: push updated k8s-deployment.yaml to github
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add -A
+        git commit -m "Image uploaded to ECR and YAML file updated." || exit 0
+        git push https://x-access-token:${GITHUB_TOKEN}@github.com/mlflow-optuna-k8s-.git HEAD
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT }}
