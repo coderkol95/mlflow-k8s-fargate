@@ -1,8 +1,7 @@
----
 name: Build and push application image to ECR with versioning
 on:
   push:
-    branches: [ main ]
+    branches: [ master ]
     paths:
         - src/*
         - static/*
