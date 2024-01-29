@@ -1,3 +1,8 @@
-Dockerised execution is much faster.
+# Execution
 
-However nesting is lost in dockerized execution for some reason.
+* Dockerised execution is much faster.
+* However nesting is lost in dockerized execution for some reason.
+
+# Errors
+
+* If a run had errored out, you have to remove it, else there will be an error

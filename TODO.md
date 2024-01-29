@@ -14,11 +14,13 @@
 - [ ] JS for frontend - Focusing time and energy in other places instead of frontend.
 - [X] Track and visualize results
 - [X] Containerize it for a web app
+- [ ] Better code and cleaner code
+- [ ] Catching exceptions
 
 # EKS setup on Fargate
 
 - [X] Create deployment, service and ingress YAMLs - deployment working with port forwarding and ingress
 - [ ] Automatic upload of image to ECR
 - [ ] Setup EKS
-- [ ] Load balancing
+- [ ] Load balancing?
 - [ ] Deploy on Fargate

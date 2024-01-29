@@ -1,0 +1,68 @@
+---
+name: Build and push application image to ECR with versioning
+on:
+  push:
+    branches: [ main ]
+    paths:
+        - src/*
+        - static/*
+        - templates/*
+        - utils/*
+        - app.py
+        - k8s-deployment.yaml
+        - Dockerfile
+        - MLProject
+        - .github/workflows/push_app_image_to_ecr.yaml
+jobs:
+  build-and-push-image:
+    name: Build and Push to ECR
+    runs-on: ubuntu-latest
+    outputs:
+      output: ${{ steps.increment-git-tag.outputs.git-tag }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.PAT }}
+        repository: 'coderkol95/mlflow-optuna-k8s'
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-access-key-id: ${{ secrets.ECR_PUSH_AK }}
+        aws-secret-access-key: ${{ secrets.ECR_PUSH_SK }}
+        aws-region: us-east-1
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+    - name: Automatic Tagging of Releases
+      id: increment-git-tag
+      run: |
+        bash git_update.sh -v patch
+    - name: Build, Tag, and Push the Image to Amazon ECR
+      id: build-image
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: mlops-webapp
+        IMAGE_TAG: ${{ steps.increment-git-tag.outputs.git-tag }}
+      run: |
+        docker build . -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+
+  update-k8s-deployment-image-version:
+    needs: [build-and-push-image]
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        token: ${{ secrets.PAT }}
+        repository: 'coderkol95/mlflow-optuna-k8s'
+    - name: Setup python 3.9
+      uses: actions/setup-python@v4
+      with: 
+        python-version: "3.9"
+    - name: Update docker image version in k8s file
+      env:
+        IMAGE_TAG: ${{ needs.build-and-push-image.outputs.output }}
+      run: python update-k8s-deployment.py
+      working-directory: utils
